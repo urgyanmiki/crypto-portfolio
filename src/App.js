@@ -10,9 +10,9 @@ function App() {
         <Router>
             <Navbar></Navbar>
             <Switch>
-                <Route exact path="/" component={() => <CoinList/>}/>
-                <Route exact path="/portfolio" component={() => <Portfolio/>}/>
-                <Route exact path="/coin/:id" component={() => <CoinPage/>}/>
+                <Route exact path="/" component={CoinList}/>
+                <Route exact path="/portfolio" component={Portfolio}/>
+                <Route exact path="/coin/:id" component={CoinPage}/>
                 <Redirect path="*" to="/"/>
             </Switch>
         </Router>
