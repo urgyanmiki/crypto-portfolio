@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {NavLink} from "react-router-dom";
 
 export const Header = styled.header`
   display: flex;
@@ -8,9 +9,12 @@ export const Header = styled.header`
 `
 
 
-export const LinkButton = styled.a`
+export const LinkButton = styled(NavLink)`
   padding: 15px 40px;
   cursor: pointer;
+  &.active{
+    background: ${(props) => props.theme.tertiary};
+  }
 `
 
 export const LinkContainer = styled.div`

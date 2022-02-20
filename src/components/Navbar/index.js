@@ -1,22 +1,18 @@
 import React from "react"
 import {Header, LinkButton, LinkContainer} from "./style"
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom";
 
 class Navbar extends React.Component {
     render() {
         return (
             <Header>
                 <LinkContainer>
-                    <Link to="/">
-                        <LinkButton>
+                    <LinkButton to="/">
                             Coins
-                        </LinkButton>
-                    </Link>
-                    <Link to="/portfolio">
-                        <LinkButton>
+                    </LinkButton>
+                    <LinkButton to="/portfolio">
                             Portfolio
-                        </LinkButton>
-                    </Link>
+                    </LinkButton>
                 </LinkContainer>
                 <div>
                 </div>
