@@ -1,6 +1,17 @@
 import React from "react"
-import {Header, LinkButton, LinkContainer} from "./style"
-import {NavLink} from "react-router-dom";
+import {
+    CurrencyContainer, CurrencyIcon, CurrencyOption, CurrencySelect,
+    FunctionContainer,
+    Header,
+    Input, InputContainer,
+    LinkButton,
+    LinkContainer, SearchIcon,
+    ThemeChangerButton,
+    ThemeChangerIcon
+} from "./style"
+import theme_change_icon from "./icons/theme_change_icon.svg"
+import search_icon from "./icons/search_icon.svg"
+import currency_icon from "./icons/currency_icon.svg"
 
 class Navbar extends React.Component {
     render() {
@@ -8,14 +19,32 @@ class Navbar extends React.Component {
             <Header>
                 <LinkContainer>
                     <LinkButton to="/">
-                            Coins
+                        Coins
                     </LinkButton>
                     <LinkButton to="/portfolio">
-                            Portfolio
+                        Portfolio
                     </LinkButton>
                 </LinkContainer>
-                <div>
-                </div>
+                <FunctionContainer>
+                    <InputContainer>
+                        <Input placeholder="Search..." type="text"/>
+                        <SearchIcon src={search_icon}/>
+                    </InputContainer>
+                    <CurrencyContainer>
+                        <CurrencySelect name="" id="">
+                            <CurrencyOption value="usd">
+                                USD
+                            </CurrencyOption>
+                            <CurrencyOption value="eur">
+                                EUR
+                            </CurrencyOption>
+                        </CurrencySelect>
+                        <CurrencyIcon src={currency_icon}/>
+                    </CurrencyContainer>
+                    <ThemeChangerButton>
+                        <ThemeChangerIcon src={theme_change_icon} alt=""/>
+                    </ThemeChangerButton>
+                </FunctionContainer>
             </Header>
         )
     }

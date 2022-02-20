@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
 export const darkTheme = {
     main: '#191b1f',
     secondary: '#1f2128',
-    tertiary: '#1f2128',
+    tertiary: '#2C2F36',
     mainFontColor: '#fff'
 }
 
@@ -34,9 +34,14 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 `
 
 export const Container = styled.div`
-  max-width: 1140px;
+  width: 1140px;
+  padding: 20px 90px;
+`
+export const PageContainer = styled.div`
+    background: ${(props) => props.theme.secondary};
 `

@@ -1,8 +1,8 @@
 import './App.css';
 import {CoinList, CoinPage, Portfolio} from "./pages";
-import {Navbar} from "./components";
+import {Navbar, CoinBar} from "./components";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
-import {GlobalStyle, darkTheme, lightTheme, Wrapper, Container} from "./globalStyles/style";
+import {GlobalStyle, darkTheme, lightTheme, Wrapper, Container, PageContainer} from "./globalStyles/style";
 import {ThemeProvider} from "styled-components";
 import {getItem} from "./utils/localStorage"
 
@@ -20,13 +20,16 @@ function App() {
             <Wrapper>
                 <Container>
                     <Router>
-                        <Navbar></Navbar>
-                        <Switch>
-                            <Route exact path="/" component={CoinList}/>
-                            <Route exact path="/portfolio" component={Portfolio}/>
-                            <Route exact path="/coin/:id" component={CoinPage}/>
-                            <Redirect path="*" to="/"/>
-                        </Switch>
+                        <Navbar/>
+                        <PageContainer>
+                            <CoinBar currency={"usd"}/>
+                            <Switch>
+                                <Route exact path="/" component={CoinList}/>
+                                <Route exact path="/portfolio" component={Portfolio}/>
+                                <Route exact path="/coin/:id" component={CoinPage}/>
+                                <Redirect path="*" to="/"/>
+                            </Switch>
+                        </PageContainer>
                     </Router>
                 </Container>
             </Wrapper>
