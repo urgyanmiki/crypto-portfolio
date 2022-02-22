@@ -1,17 +1,30 @@
 import './App.css';
 import {CoinList, CoinPage, Portfolio} from "./pages";
-import {Navbar, CoinBar} from "./components";
-import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
-import {GlobalStyle, darkTheme, lightTheme, Wrapper, Container, PageContainer} from "./globalStyles/style";
+import {CoinBar, Navbar} from "./components";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
+import {Container, darkTheme, GlobalStyle, lightTheme, PageContainer, Wrapper} from "./globalStyles/style";
 import {ThemeProvider} from "styled-components";
-import {getItem} from "./utils/localStorage"
+import {getItem, setItem} from "./utils/localStorage"
 
 import React from "react";
+
+const currencyLocalStorageName = 'currency';
+const themeLocalStorageName = 'theme';
+const lightThemeName = 'light';
+const darkThemeName = 'dark';
 
 function App() {
 
     const handleTheme = () => {
-        return getItem(process.env.REACT_APP_THEME_LOCAL_STORAGE_NAME) === 'dark' ? darkTheme : lightTheme
+        return getItem(themeLocalStorageName) === darkThemeName ? darkTheme : lightTheme
+    }
+
+    const handleThemeChange = () => {
+        setItem(themeLocalStorageName, getItem(themeLocalStorageName) === darkThemeName ? lightThemeName : darkThemeName);
+    }
+
+    const handleCurrencyChange = (currency) => {
+        setItem(currencyLocalStorageName, currency)
     }
 
     return (
@@ -20,9 +33,9 @@ function App() {
             <Wrapper>
                 <Container>
                     <Router>
-                        <Navbar/>
+                        <Navbar currency={getItem(currencyLocalStorageName)} handleCurrencyChange={handleCurrencyChange} handleThemeChange={handleThemeChange}/>
                         <PageContainer>
-                            <CoinBar currency={"usd"}/>
+                            <CoinBar currency={getItem(currencyLocalStorageName)}/>
                             <Switch>
                                 <Route exact path="/" component={CoinList}/>
                                 <Route exact path="/portfolio" component={Portfolio}/>

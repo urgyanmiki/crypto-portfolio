@@ -14,6 +14,16 @@ import search_icon from "./icons/search_icon.svg"
 import currency_icon from "./icons/currency_icon.svg"
 
 class Navbar extends React.Component {
+    state ={
+        currency: this.props.currency
+    }
+
+    handleChange = (e) => {
+        const currency = e.target.value
+        this.setState({currency: currency})
+        this.props.handleCurrencyChange(currency);
+    }
+
     render() {
         return (
             <Header>
@@ -31,7 +41,7 @@ class Navbar extends React.Component {
                         <SearchIcon src={search_icon}/>
                     </InputContainer>
                     <CurrencyContainer>
-                        <CurrencySelect name="" id="">
+                        <CurrencySelect value={this.state.currency} onChange={this.handleChange} name="" id="">
                             <CurrencyOption value="usd">
                                 USD
                             </CurrencyOption>
@@ -41,7 +51,7 @@ class Navbar extends React.Component {
                         </CurrencySelect>
                         <CurrencyIcon src={currency_icon}/>
                     </CurrencyContainer>
-                    <ThemeChangerButton>
+                    <ThemeChangerButton onClick={this.props.handleThemeChange}>
                         <ThemeChangerIcon src={theme_change_icon} alt=""/>
                     </ThemeChangerButton>
                 </FunctionContainer>

@@ -38,10 +38,11 @@ export const CoinBarIconBoxProgress = styled.progress`
 
 `
 export const CoinBarIconBoxDot = styled.span`
-  height: 10px;
-  width: 10px;
+  height: 5px;
+  width: 5px;
   background: ${(props) => props.theme.mainFontColor};
   border-radius: 50%;
+  margin-right: 5px;
 `
 
 export const CoinBarTextBox = styled.span`

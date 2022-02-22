@@ -70,7 +70,7 @@ export const CurrencyIcon = styled.img`
   left: 5px;
 `
 
-export const ThemeChangerButton = styled.div`
+export const ThemeChangerButton = styled.button`
   display: flex;
   padding: 15px 20px;
   background: ${(props) => props.theme.tertiary};

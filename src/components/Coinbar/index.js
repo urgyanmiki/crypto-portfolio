@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import btcLogo from "./icons/bitcoin-btc-logo.svg"
 import ethLogo from "./icons/ethereum-eth-logo.svg"
+import { priceRound } from "../../utils/dataManipulators"
 
 const CoinDataText = ({text, value}) => {
     return (
@@ -19,7 +20,8 @@ const CoinDataText = ({text, value}) => {
     )
 }
 
-const CoinDataIcon = ({text, icon, progressValue}) => {
+const CoinDataIcon = ({value, icon, progressValue}) => {
+    console.log(Math.floor(progressValue))
     return (
         <CoinBarIconBox>
             {icon ? (
@@ -27,8 +29,8 @@ const CoinDataIcon = ({text, icon, progressValue}) => {
             ) : (
                 <CoinBarIconBoxDot/>
             )}
-            <CoinBarTextBox for={text}>{text}</CoinBarTextBox>
-            {progressValue && <CoinBarIconBoxProgress val={Math.floor(progressValue)} max={100}/>}
+            <CoinBarTextBox htmlFor={value}>{String(value).substring(0,2)}</CoinBarTextBox>
+            {/*{progressValue && <CoinBarIconBoxProgress val={Math.floor(progressValue)} max={100}/>}*/}
         </CoinBarIconBox>
     )
 }
@@ -48,9 +50,7 @@ class CoinBar extends React.Component {
             {
                 title: 'Exchange',
                 objectKey: 'markets'
-            }
-        ],
-        textIcons: [
+            },
             {
                 objectKey: `total_market_cap`
             },
@@ -70,16 +70,26 @@ class CoinBar extends React.Component {
                 progressCurrency: "eth",
                 icon: ethLogo
             }
-        ]
+        ],
     }
 
     getCoinBarData = async () => {
-        this.setState({isLoading: true});
+        try {
+            this.setState({isLoading: true});
 
-        const {data} = await axios(`${process.env.REACT_APP_API_ENDPOINT}/global`);
-        this.setState({coinBarData: data.data});
-        console.log(this.state.coinBarData)
+            const {data} = await axios(`${process.env.REACT_APP_API_ENDPOINT}/global`);
+            this.setState({coinBarData: data.data, isLoading: false});
+        } catch (err) {
+            console.log(err)
+        }
     }
+
+    getConditionedValue  = (textObject) => {
+        return textObject.progressCurrency ?
+            this.state.coinBarData[textObject.objectKey][textObject.progressCurrency] :
+            this.state.coinBarData[textObject.objectKey][this.props.currency]
+    }
+
 
     componentDidMount() {
         if (!this.state.coinBarData) {
@@ -88,21 +98,26 @@ class CoinBar extends React.Component {
     }
 
     render() {
-        const {coinBarData, texts, textIcons, currency} = this.state
+        const {coinBarData, texts, textIcons, currency} = this.state;
         return (
             <CoinbarContainer>
                 <CoinBarBox>
-                    {coinBarData &&
-                    texts.map((text, index) => (
-                        <CoinDataText key={index} text={text.title} value={coinBarData[text.objectKey]}/>
-                    ))}
-                    {coinBarData &&
-                    textIcons.map((textIcon, index) => {
-                        <CoinDataIcon key={index}
-                                      text={coinBarData[textIcon.objectKey][currency]}
-                                      icon={textIcon.icon}
-                                      progressValue={coinBarData[textIcon.progressValue][textIcon.progressCurrency]}/>
-                    })}
+                    {coinBarData && (
+                        texts.map((text, index) => {
+                            if (text.title) {
+                               return <CoinDataText key={index} text={text.title} value={coinBarData[text.objectKey]}/>
+                            }else {
+                                return <CoinDataIcon
+                                    key={index}
+                                    progressValue={ text.progressCurrency ?
+                                        coinBarData[text.objectKey][text.progressCurrency] : null }
+                                    value={text.progressCurrency ?
+                                        coinBarData[text.objectKey][text.progressCurrency] :
+                                        coinBarData[text.objectKey][this.props.currency]}
+                                    icon={text.icon} />
+                            }
+                        })
+                    )
                     }
                 </CoinBarBox>
             </CoinbarContainer>
